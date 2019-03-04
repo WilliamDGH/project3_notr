@@ -10,8 +10,16 @@
   white-space: normal;
   height: auto;
   margin: 20px 5px;
+  padding: 10px;
 }
 
 .cardThumbnail .card {
   height: 210px;
+}
+
+.noteCanvas .card {
+  width: 90%;
+  height: 40vh;
+  min-height: 40vh;
+  margin: 1em auto;
 }

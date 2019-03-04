@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import firebase from './../firebase-config'
 
 import Note from './Note'
 import NewNote from './NewNote'
@@ -7,30 +8,60 @@ class App extends Component {
   constructor(){
     super()
     this.state = {
-
+      notes : null,
+      focus: 0
     }
+    this._selectNote = this._selectNote.bind(this);
+    this._handleChange = this._handleChange.bind(this);
+  }
+
+  componentWillMount(){
+    this._fetchNotes()
+  }
+
+  _fetchNotes(){
+    const dbref = firebase.database().ref().child('notes')
+    dbref.on('value', snap => {
+      this.setState({
+        notes: snap.val()
+      })
+    })
+  }
+
+  _selectNote (id) {
+    this.setState({
+      focus: id
+    })
+  }
+
+  _handleChange (e) {
+    const dbref = firebase.database().ref().child('notes').child(this.state.focus);
+    dbref.update({
+      content: e.target.value
+    })
   }
 
   render() {
+    if(this.state.notes === null) {
+      return(
+        <div className="container">
+          <h1>Loading...</h1>
+        </div>)
+    }
     return (
       <div className="container">
-        <h1>Notr</h1>
+        <h1>NotR</h1>
 
         <div className="noteList">
           <NewNote />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
-          <Note />
+          {this.state.notes !== null && this.state.notes.map((n)=>{
+            return <Note select={this._selectNote} key={n.id} note={n}/>
+          })}
         </div>
 
         <div className="noteCanvas">
           <form>
-            <div className="card" contenteditable="true">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </div>
+            <textarea className="card" onChange={this._handleChange} value={(this.state.notes === null)? ("") : (this.state.notes[this.state.focus].content)}></textarea>
           </form>
         </div>
       </div>
