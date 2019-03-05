@@ -4,19 +4,19 @@ export default class Note extends Component {
   constructor(){
     super()
     this.state = {
-      note : {}
+      id : null
     }
     this.handleSelect=this.handleSelect.bind(this)
   }
 
   componentWillMount(){
     this.setState({
-      note: this.props.note
+      id: this.props.id
     })
   }
 
   handleSelect () {
-    this.props.select(this.state.note.id)
+    this.props.select(this.state.id)
   }
   render () {
     return(

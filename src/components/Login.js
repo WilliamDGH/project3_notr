@@ -27,7 +27,15 @@ export default class Login extends Component {
 
   _signup(e){
     e.preventDefault();
-    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).catch((error) => {
+    firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+    .then(()=>{
+      const user = firebase.auth().currentUser;
+      firebase.database().ref().child(user.uid).push({
+        title: `Welcome ${user.email}`,
+        content: "Create your first note"
+      })
+    })
+    .catch((error) => {
         this.setState({ message : error.message })
       })
   }
