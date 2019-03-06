@@ -11,11 +11,13 @@ import './css/login.css'
 import App from './components/App'
 import Login from './components/Login'
 
-
 // Bootstrap
-import $ from 'jquery'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min'
+
+// Bootstrap Template resource
+import './css/template.css'
+import './ui-js/template.js'
 
 // React Router
 class Routes extends Component {

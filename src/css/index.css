@@ -8,21 +8,35 @@
   width: 200px;
   display: inline-block;
   white-space: normal;
-  height: auto;
+  height: 200px;
   margin: 20px 5px;
   padding: 10px;
-  cursor: grab;
 }
 
-.cardThumbnail .card {
-  height: 210px;
+.note-content {
+  overflow: hidden;
+  height: 60%;
 }
 
-.noteCanvas .card {
+.note-title {
+  overflow: hidden;
+  height: 20%;
+}
+
+.noteCanvas .field {
   width: 90%;
   margin: 1em auto;
 }
 
-.noteCanvas .card:last-child {
+.noteCanvas .field:last-child {
   height: 40vh;
+}
+
+#user-name {
+  font-size: 10px;
+  font-weight: normal;
+}
+
+#navBar {
+  background-color: black;
 }

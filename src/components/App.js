@@ -1,8 +1,23 @@
 import React, { Component } from 'react'
 import firebase from './../firebase-config'
 
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+
 import Note from './Note'
 import NewNote from './NewNote'
+import MenuAppBar from './MenuAppBar'
+
+const styles = {
+  noteField: {
+    margin: "0 auto",
+    width: "100px"
+  },
+};
 
 class App extends Component {
   constructor(){
@@ -15,6 +30,7 @@ class App extends Component {
     this._handleChangeTitle = this._handleChangeTitle.bind(this);
     this._handleChangeContent = this._handleChangeContent.bind(this);
     this._createNewNote = this._createNewNote.bind(this);
+    this._deleteNote = this._deleteNote.bind(this);
   }
 
   componentWillMount(){
@@ -73,11 +89,13 @@ class App extends Component {
     })
   }
 
-  _signOut(){
-    firebase.auth().signOut();
+  _deleteNote (id) {
+    const dbref = firebase.database().ref().child(this.state.user.uid).child(id)
+    dbref.remove()
   }
 
   render() {
+    const { classes } = this.props;
     if(this.state.notes === null) {
       return(
         <div className="container">
@@ -86,22 +104,31 @@ class App extends Component {
     }
     return (
       <div className="container">
-        <h1>NotR</h1>
-        {(this.state.user)? <p onClick={this._signOut}>{this.state.user.email} Click to sign out</p> : ""}
+        <MenuAppBar user={this.state.user}/>
         <div className="noteList">
           <NewNote select={this._createNewNote}/>
           {this.state.notes !== null && Object.keys(this.state.notes).reverse().map((key)=>{
-            return <Note select={this._selectNote} key={key} id={key} note={this.state.notes[key]}/>
+            return <Note delete={this._deleteNote} select={this._selectNote} key={key} id={key} note={this.state.notes[key]}/>
           })}
         </div>
 
         <div className="noteCanvas">
-          <textarea className="card" onChange={this._handleChangeTitle} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].title)}></textarea>
-          <textarea className="card" onChange={this._handleChangeContent} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].content)}></textarea>
+          <Paper elevation={1}>
+            <div className="field">
+            <TextField placeholder="title" className={classes.noteField} onChange={this._handleChangeTitle} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].title)}/>
+            </div>
+            <div className="field">
+            <TextField placeholder="content" fullWidth="true" multiline className="card" onChange={this._handleChangeContent} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].content)} />
+            </div>
+          </Paper>
         </div>
       </div>
     );
   }
 }
 
-export default App;
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
