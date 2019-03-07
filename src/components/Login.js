@@ -32,7 +32,8 @@ export default class Login extends Component {
       const user = firebase.auth().currentUser;
       firebase.database().ref().child(user.uid).push({
         title: `Welcome ${user.email}`,
-        content: "Create your first note"
+        content: "Create your first note",
+        uid: user.uid
       })
     })
     .catch((error) => {

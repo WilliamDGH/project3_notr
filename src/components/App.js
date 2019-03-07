@@ -82,7 +82,8 @@ class App extends Component {
     const dbref = firebase.database().ref().child(this.state.user.uid)
     const newNote = dbref.push({
       title: "new note",
-      content: "new note"
+      content: "new note",
+      uid: this.state.user.uid
     }).key
     this.setState({
       focus : newNote
