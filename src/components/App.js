@@ -33,7 +33,7 @@ class App extends Component {
     this._deleteNote = this._deleteNote.bind(this);
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this._fetchNotes()
   }
 
