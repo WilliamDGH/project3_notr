@@ -42,7 +42,7 @@ class App extends Component {
       (user) => {
         if(user) {
           this.setState({ user })
-          const dbref = firebase.database().ref().child(this.state.user.uid).orderByChild('timeStamp')
+          const dbref = firebase.database().ref().child(this.state.user.uid)
           dbref.on('value', snap => {
             this.setState({
               notes: snap.val()
@@ -91,6 +91,9 @@ class App extends Component {
   }
 
   _deleteNote (id) {
+    if (id === this.state.focus) {
+      this.setState({ focus: null })
+    }
     const dbref = firebase.database().ref().child(this.state.user.uid).child(id)
     dbref.remove()
   }
@@ -119,7 +122,7 @@ class App extends Component {
             <TextField placeholder="title" className={classes.noteField} onChange={this._handleChangeTitle} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].title)}/>
             </div>
             <div className="field">
-            <TextField placeholder="content" fullWidth="true" multiline className="card" onChange={this._handleChangeContent} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].content)} />
+            <TextField placeholder="content" fullWidth={true} multiline className="card" onChange={this._handleChangeContent} value={(this.state.notes === null || this.state.focus === null)? ("") : (this.state.notes[this.state.focus].content)} />
             </div>
           </Paper>
         </div>

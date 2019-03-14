@@ -1,12 +1,12 @@
 import firebase from 'firebase'
 
 const config = {
-  apiKey: "AIzaSyD5I5SNSzovUWMbPkvk3cV0sh5jMYd25w0",
-  authDomain: "project3-notr.firebaseapp.com",
-  databaseURL: "https://project3-notr.firebaseio.com",
-  projectId: "project3-notr",
-  storageBucket: "project3-notr.appspot.com",
-  messagingSenderId: "172867758503"
+  apiKey: "AIzaSyB3TUWHzK6Q4ULG3wFsaT5TDZvH2d_Zi7Q",
+  authDomain: "notr-2df7d.firebaseapp.com",
+  databaseURL: "https://notr-2df7d.firebaseio.com",
+  projectId: "notr-2df7d",
+  storageBucket: "notr-2df7d.appspot.com",
+  messagingSenderId: "239598273199"
 };
 
 export default firebase.initializeApp(config);
